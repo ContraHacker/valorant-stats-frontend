@@ -20,7 +20,7 @@ export default async function RunningStats() {
     const num_wins = stats.filter((stat) => stat.scores[PLAYER_NAME].kills === 40).length;
     const num_losses = num_games - num_wins;
 
-    const prev_10_maps = stats.slice(-10).map((stat) => stat.map);
+    const prev_10_maps = stats.slice(-10).map((stat) => ({ _id: stat._id, map: stat.map }));
 
     return (
         <> 
@@ -28,8 +28,8 @@ export default async function RunningStats() {
             <h2 className="text-sm text-gray-400 mt-6">Previous 10 Maps</h2>
             <div className="flex justify-between gap-x-2 w-full mt-2">
                 {
-                    prev_10_maps.map((map, index) => (
-                        <span key={index} className="bg-white/20 px-2 py-1 rounded text-xs w-full text-center">{map}</span>
+                    prev_10_maps.map((item) => (
+                        <span key={item._id} className="bg-white/20 px-2 py-1 rounded text-xs w-full text-center">{item.map}</span>
                     ))
                 }
             </div>
