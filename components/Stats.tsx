@@ -10,7 +10,16 @@ export default async function AllDMStats() {
             {
                 stats.map((stat) => {
                     return (
-                        <div key={stat._id} className="bg-white/10 hover:bg-white/25 cursor-pointer px-10 py-2 rounded-lg relative">
+                        <div
+                            key={stat._id}
+                            className={`cursor-pointer px-10 py-2 rounded-lg relative bg-cover bg-center`}
+                            style = {{
+                                backgroundImage: `url(/maps/${stat.map}.webp)`,
+                                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                                backgroundBlendMode: 'overlay',
+                                boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.5) inset',
+                            }}
+                        >
 
                             <span className={ 
                                 `${stat.scores[PLAYER_NAME].kills === 40 ? 'bg-green-400' : 'bg-red-400'} w-3 h-3 rounded-full absolute top-[10px] right-2`
