@@ -1,5 +1,5 @@
 import { PLAYER_NAME } from "@/constants";
-import getAllDMStats from "@/lib/db/getAllDMStats";
+import { getAllDMStats } from "@/lib/db/dm-records";
 import KDAChart from "./KDAChart";
 import MapFrequencyChart from "./MapFrequencyChart";
 
@@ -23,16 +23,7 @@ export default async function RunningStats() {
     const prev_10_maps = stats.slice(-10).map((stat) => ({ _id: stat._id, map: stat.map }));
 
     return (
-        <> 
-        
-            <h2 className="text-sm text-gray-400 mt-6">Previous 10 Maps</h2>
-            <div className="flex justify-between gap-x-2 w-full mt-2">
-                {
-                    prev_10_maps.map((item) => (
-                        <span key={item._id} className="bg-white/20 px-2 py-1 rounded text-xs w-full text-center">{item.map}</span>
-                    ))
-                }
-            </div>
+        <>
 
             <div className="grid grid-cols-4 gap-4 mt-6">
 

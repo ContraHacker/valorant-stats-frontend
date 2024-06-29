@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 export default function RootLayout({
     children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
     return (
         <html lang="en">
-            <body className={font.className}>{children}</body>
+            <body className={`${font.className} m-16 mt-8`}>{children}</body>
         </html>
     );
 }

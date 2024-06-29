@@ -1,6 +1,6 @@
 "use client";
 
-import { Stats } from '@/lib/db/getAllDMStats';
+import { Stats } from '@/lib/db/dm-records';
 import { Chart as ChartJS, LinearScale, LineElement, PointElement } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
