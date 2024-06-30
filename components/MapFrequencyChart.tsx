@@ -21,7 +21,7 @@ export default function MapFrequencyChart({ map_stats }: { map_stats: (string | 
 
 
             <Bar
-                data={{
+                data={ {
                     labels: Array.from(maps),
                     datasets: [
                         {
@@ -32,8 +32,8 @@ export default function MapFrequencyChart({ map_stats }: { map_stats: (string | 
                             barThickness: 60,
                         }
                     ]
-                }}
-                options={{
+                } }
+                options={ {
                     scales: {
                         x: {
                             ticks: {
@@ -55,7 +55,7 @@ export default function MapFrequencyChart({ map_stats }: { map_stats: (string | 
                             }
                         }
                     }
-                }}
+                } }
             />
 
         </div>

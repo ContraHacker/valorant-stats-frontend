@@ -1,4 +1,4 @@
-import { db_name } from "@/constants";
+import { PLAYER_NAME, db_name } from "@/constants";
 import { MongoClient, ObjectId } from "mongodb";
 
 const collection_name = 'dm-records';
@@ -18,19 +18,33 @@ export type Stats = {
             assists: number;
         };
     };
-}
+};
+
+export type RunningStats = {
+    num_games: number;
+    total_kills: number;
+    total_deaths: number;
+    kdr: number;
+    avg_kills: number;
+    avg_deaths: number;
+    num_wins: number;
+    num_losses: number;
+};
 
 export async function getAllDMStats() {
 
     const client = new MongoClient(process.env.MONGODB_URI!);
-    
+
     try {
 
         await client.connect();
 
         const database = client.db(db_name);
         const records = database.collection(collection_name);
-        const stats = await records.find({}).toArray();
+        const stats = await records
+            .find({})
+            .sort({ created_at: -1 })
+            .toArray();
 
         return stats.map((stat) => {
             return {
@@ -47,7 +61,7 @@ export async function getAllDMStats() {
         console.error(error);
         return [];
     }
-  
+
     finally {
         await client.close();
     }
@@ -62,7 +76,7 @@ export async function getDeathmatchDetails(id: string) {
     }
 
     const _id = new ObjectId(id);
-    
+
     try {
 
         await client.connect();
@@ -91,8 +105,68 @@ export async function getDeathmatchDetails(id: string) {
         console.error(error);
         return null;
     }
-  
+
     finally {
         await client.close();
     }
+}
+
+export async function getDeathmatchRunningStats(): Promise<RunningStats> {
+
+    const client = new MongoClient(process.env.MONGODB_URI!);
+
+    try {
+
+        await client.connect();
+
+        const database = client.db(db_name);
+        const records = database.collection(collection_name);
+
+        const all_records = await records
+            .find({})
+            .toArray();
+
+        if (!all_records) {
+            throw new Error('Error fetching DM records to compute running stats');
+        }
+
+        const stats = {
+            num_games: all_records.length,
+            total_kills: all_records.reduce((acc, stat) => acc + stat.scores[PLAYER_NAME].kills, 0),
+            total_deaths: all_records.reduce((acc, stat) => acc + stat.scores[PLAYER_NAME].deaths, 0),
+            kdr: 0,
+            avg_kills: 0,
+            avg_deaths: 0,
+            num_wins: 0,
+            num_losses: 0
+        };
+
+        stats.kdr = stats.total_kills / stats.total_deaths;
+        stats.avg_kills = stats.total_kills / stats.num_games;
+        stats.avg_deaths = stats.total_deaths / stats.num_games;
+        stats.num_wins = all_records.filter((stat) => stat.scores[PLAYER_NAME].kills === 40).length;
+        stats.num_losses = stats.num_games - stats.num_wins;
+
+        return stats;
+
+    }
+
+    catch (error) {
+        console.error(error);
+        return {
+            num_games: 0,
+            total_kills: 0,
+            total_deaths: 0,
+            kdr: 0,
+            avg_kills: 0,
+            avg_deaths: 0,
+            num_wins: 0,
+            num_losses: 0
+        };
+    }
+
+    finally {
+        await client.close();
+    }
+
 }

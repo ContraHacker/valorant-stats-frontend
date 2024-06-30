@@ -37,6 +37,7 @@ export default function ScreenshotInput() {
 
     async function upload_screenshot() {
 
+
         if (screenshot) {
 
             const formData = new FormData();
@@ -67,6 +68,7 @@ export default function ScreenshotInput() {
                         return `Screenshot Processed in ${data.processing_time}ms`;
                     },
                     error: (error) => {
+                        console.error(error);
                         return error.message;
                     }
                 }
@@ -81,34 +83,34 @@ export default function ScreenshotInput() {
             <Toaster />
 
             <div
-                onClick={() => setModalOpen(false)}
-                style={{ visibility: modalOpen ? "visible" : "hidden" }}
+                onClick={ () => setModalOpen(false) }
+                style={ { visibility: modalOpen ? "visible" : "hidden" } }
                 className="w-screen h-screen fixed inset-0 bg-black/50 backdrop-blur-sm grid place-items-center"
             >
 
                 <dialog
-                    open={modalOpen}
+                    open={ modalOpen }
                     className="w-1/2 bg-white/25 relative p-8"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={ (e) => e.stopPropagation() }
                 >
 
                     <div className="relative w-full aspect-video">
                         {
-                            screenshot && <Image src={URL.createObjectURL(screenshot)} fill alt="Screenshot" />
+                            screenshot && <Image src={ URL.createObjectURL(screenshot) } fill alt="Screenshot" />
                         }
                     </div>
 
                     <div className="flex justify-end mt-8 gap-x-8 text-white text-4xl">
 
                         <button
-                            onClick={() => setModalOpen(false)}
+                            onClick={ () => setModalOpen(false) }
                             className="p-2 rounded bg-red-500 hover:outline"
                         >
                             <FiX />
                         </button>
 
                         <button
-                            onClick={upload_screenshot}
+                            onClick={ upload_screenshot }
                             className="p-2 rounded bg-green-500 hover:outline"
                         >
                             <FiCornerDownRight />

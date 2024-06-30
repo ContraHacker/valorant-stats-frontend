@@ -42,7 +42,7 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
             </div>
 
             <Line
-                data={{
+                data={ {
                     labels: labels,
                     datasets: [
                         {
@@ -79,8 +79,8 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
                             borderWidth: 1
                         }
                     ]
-                }}
-                options={{
+                } }
+                options={ {
                     scales: {
                         x: {
                             ticks: {
@@ -102,7 +102,7 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
                             }
                         }
                     }
-                }}
+                } }
             />
 
         </div>

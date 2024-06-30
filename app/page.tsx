@@ -12,7 +12,7 @@ export default function Home() {
             <div>
                 <ScreenshotInput />
                 <h1 className='text-3xl'>Dashboard</h1>
-                <h2 className='text-lg text-gray-400'>Running Deathmatch Stats for {PLAYER_NAME}</h2>
+                <h2 className='text-lg text-gray-400'>Running Deathmatch Stats for { PLAYER_NAME }</h2>
                 <RunningStats />
             </div>
 

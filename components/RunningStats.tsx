@@ -1,26 +1,21 @@
 import { PLAYER_NAME } from "@/constants";
-import { getAllDMStats } from "@/lib/db/dm-records";
+import { getAllDMStats, getDeathmatchRunningStats } from "@/lib/db/dm-records";
 import KDAChart from "./KDAChart";
 import MapFrequencyChart from "./MapFrequencyChart";
 
 export default async function RunningStats() {
 
     const stats = await getAllDMStats();
-
-    const num_games = stats.length;
-
-    const total_kills = stats.reduce((acc, stat) => acc + stat.scores[PLAYER_NAME].kills, 0);
-    const total_deaths = stats.reduce((acc, stat) => acc + stat.scores[PLAYER_NAME].deaths, 0);
-
-    const kdr = total_kills / total_deaths;
-
-    const avg_kills = total_kills / num_games;
-    const avg_deaths = total_deaths / num_games;
-
-    const num_wins = stats.filter((stat) => stat.scores[PLAYER_NAME].kills === 40).length;
-    const num_losses = num_games - num_wins;
-
-    const prev_10_maps = stats.slice(-10).map((stat) => ({ _id: stat._id, map: stat.map }));
+    const {
+        num_games,
+        total_kills,
+        total_deaths,
+        kdr,
+        avg_kills,
+        avg_deaths,
+        num_wins,
+        num_losses
+    } = await getDeathmatchRunningStats();
 
     return (
         <>
@@ -29,49 +24,49 @@ export default async function RunningStats() {
 
                 <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Games Played</p>
-                    <p className="text-[4vw] leading-none">{num_games}</p>
+                    <p className="text-[4vw] leading-none">{ num_games }</p>
                 </div>
 
                 <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">KDR</p>
-                    <p className="text-[4vw] leading-none">{kdr.toFixed(2)}</p>
+                    <p className="text-[4vw] leading-none">{ kdr.toFixed(2) }</p>
                 </div>
 
                 <div className="bg-green-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Total Kills</p>
-                    <p className="text-[4vw] leading-none">{total_kills}</p>
+                    <p className="text-[4vw] leading-none">{ total_kills }</p>
                 </div>
 
                 <div className="bg-red-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Total Deaths</p>
-                    <p className="text-[4vw] leading-none">{total_deaths}</p>
+                    <p className="text-[4vw] leading-none">{ total_deaths }</p>
                 </div>
 
                 <div className="bg-green-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Wins</p>
-                    <p className="text-[4vw] leading-none">{num_wins}</p>
+                    <p className="text-[4vw] leading-none">{ num_wins }</p>
                 </div>
 
                 <div className="bg-red-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Losses</p>
-                    <p className="text-[4vw] leading-none">{num_losses}</p>
+                    <p className="text-[4vw] leading-none">{ num_losses }</p>
                 </div>
 
                 <div className="bg-green-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Average Kills</p>
-                    <p className="text-[4vw] leading-none">{avg_kills.toFixed(0)}</p>
+                    <p className="text-[4vw] leading-none">{ avg_kills.toFixed(0) }</p>
                 </div>
 
                 <div className="bg-red-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Average Deaths</p>
-                    <p className="text-[4vw] leading-none">{avg_deaths.toFixed(0)}</p>
+                    <p className="text-[4vw] leading-none">{ avg_deaths.toFixed(0) }</p>
                 </div>
-                
+
             </div>
 
             <div className="my-6 grid grid-cols-2 gap-x-4">
-                <MapFrequencyChart map_stats = { stats.map((stat) => stat.map) } />
-                <KDAChart kda_stats = { stats.map((stat) => stat.scores[PLAYER_NAME]) } />
+                <MapFrequencyChart map_stats={ stats.map((stat) => stat.map) } />
+                <KDAChart kda_stats={ stats.map((stat) => stat.scores[PLAYER_NAME]).reverse() } />
             </div>
 
         </>
