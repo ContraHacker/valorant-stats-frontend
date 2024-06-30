@@ -51,13 +51,12 @@ export default function ScreenshotInput() {
                     .then((response) => response.json())
                     .then((data: StdResponse) => {
 
-                        if (data.success) {
-                            return data;
-                        }
-
-                        else {
+                        if ("error" in data) {
                             throw new Error(data.error);
                         }
+
+                        return data;
+
                     }),
 
                 {
