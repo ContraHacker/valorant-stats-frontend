@@ -1,4 +1,5 @@
 import BackButton from '@/components/BackButton';
+import DMScoresTable from '@/components/DMScoresTable';
 import { PLAYER_NAME } from '@/constants';
 import { getDeathmatchDetails, getDeathmatchRunningStats } from '@/lib/db/dm-records';
 import { FiArrowDown, FiArrowUp, FiAward, FiCalendar, FiClock, FiDivide, FiEdit, FiMapPin, FiUpload } from 'react-icons/fi';
@@ -82,8 +83,6 @@ export default async function DeathmatchDetails({ params }: { params: { _id: str
                         </p>
                     </span>
 
-                    { /* Match Date, Created At, Updated At */ }
-
                     <span className='flex items-center gap-x-2'>
                         <FiCalendar className='text-xl' />
                         <p className='tracking-widest text-xl'>{ new Date(details.date || '').toLocaleString('en-IN', { dateStyle: 'short' }) }</p>
@@ -103,32 +102,7 @@ export default async function DeathmatchDetails({ params }: { params: { _id: str
 
             </nav>
 
-            <div className='p-8 bg-fuchsia-400/50 rounded border'>
-                <table className='w-full text-lg'>
-                    <thead>
-                        <tr>
-                            <th className='text-left'>Player</th>
-                            <th>Kills</th>
-                            <th>Deaths</th>
-                            <th>Assists</th>
-                            <th>KDR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            Object.entries(details.scores).map(([player, { kills, deaths, assists }]) => (
-                                <tr key={ player }>
-                                    <td>{ player }</td>
-                                    <td className='text-center'>{ kills }</td>
-                                    <td className='text-center'>{ deaths }</td>
-                                    <td className='text-center'>{ assists }</td>
-                                    <td className='text-center'>{ (kills / deaths).toFixed(2) }</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
-            </div>
+            <DMScoresTable scores={ Object.entries(details.scores) } />
 
         </>
     );

@@ -14,52 +14,59 @@ export default async function RunningStats() {
         avg_kills,
         avg_deaths,
         num_wins,
-        num_losses
+        num_losses,
+        total_duration,
+        avg_duration
     } = await getDeathmatchRunningStats();
 
     return (
         <>
 
-            <div className="grid grid-cols-4 gap-4 mt-6">
+            <div className="grid grid-cols-5 gap-4 mt-6">
 
                 <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Games Played</p>
-                    <p className="text-[4vw] leading-none">{ num_games }</p>
+                    <p className="text-[3vw] leading-none">{ num_games }</p>
                 </div>
 
                 <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">KDR</p>
-                    <p className="text-[4vw] leading-none">{ kdr.toFixed(2) }</p>
+                    <p className="text-[3vw] leading-none">{ kdr.toFixed(2) }</p>
+                </div>
+
+                <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
+                    <p className="text-xs text-gray-300">Average Duration</p>
+                    <p className="text-[3vw] leading-none">{ avg_duration }</p>
+                </div>
+
+                <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full col-span-2">
+                    <p className="text-xs text-gray-300">Total Duration</p>
+                    <p className="text-[3vw] leading-none">{ total_duration }</p>
+                </div>
+
+                <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
+                    <p className="text-xs text-gray-300">Wins & Losses</p>
+                    <p className="text-[3vw] leading-none">{ num_wins } / { num_losses }</p>
                 </div>
 
                 <div className="bg-green-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Total Kills</p>
-                    <p className="text-[4vw] leading-none">{ total_kills }</p>
+                    <p className="text-[3vw] leading-none">{ total_kills }</p>
                 </div>
 
                 <div className="bg-red-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Total Deaths</p>
-                    <p className="text-[4vw] leading-none">{ total_deaths }</p>
-                </div>
-
-                <div className="bg-green-400/20 px-8 py-4 rounded w-full">
-                    <p className="text-xs text-gray-300">Wins</p>
-                    <p className="text-[4vw] leading-none">{ num_wins }</p>
-                </div>
-
-                <div className="bg-red-400/20 px-8 py-4 rounded w-full">
-                    <p className="text-xs text-gray-300">Losses</p>
-                    <p className="text-[4vw] leading-none">{ num_losses }</p>
+                    <p className="text-[3vw] leading-none">{ total_deaths }</p>
                 </div>
 
                 <div className="bg-green-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Average Kills</p>
-                    <p className="text-[4vw] leading-none">{ avg_kills.toFixed(0) }</p>
+                    <p className="text-[3vw] leading-none">{ avg_kills.toFixed(0) }</p>
                 </div>
 
                 <div className="bg-red-400/20 px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Average Deaths</p>
-                    <p className="text-[4vw] leading-none">{ avg_deaths.toFixed(0) }</p>
+                    <p className="text-[3vw] leading-none">{ avg_deaths.toFixed(0) }</p>
                 </div>
 
             </div>

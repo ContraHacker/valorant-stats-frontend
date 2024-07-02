@@ -2,6 +2,7 @@
 
 import { Stats } from '@/lib/db/dm-records';
 import { Chart as ChartJS, LinearScale, LineElement, PointElement } from 'chart.js';
+import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(LineElement, LinearScale, PointElement);
@@ -16,8 +17,10 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
 
     const labels = kda_stats.map((_, index) => index + 1);
 
+    const [tension, set_tension] = useState<0 | 0.5>(0.5);
+
     return (
-        <div className='px-16 py-6 bg-white/5 rounded'>
+        <div className='px-16 py-6 bg-white/5 rounded cursor-pointer' onClick={ () => set_tension(tension === 0 ? 0.5 : 0) }>
 
             <div className='flex justify-between items-center mb-4'>
 
@@ -49,7 +52,7 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
                             label: 'Kills',
                             data: kills,
                             borderColor: '#4ade80',
-                            tension: 0.5,
+                            tension,
                             pointRadius: 0,
                             borderWidth: 2
                         },
@@ -57,7 +60,7 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
                             label: 'Deaths',
                             data: deaths,
                             borderColor: '#f87171',
-                            tension: 0.5,
+                            tension,
                             pointRadius: 0,
                             borderWidth: 2
                         },
@@ -65,7 +68,7 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
                             label: 'Assists',
                             data: assists,
                             borderColor: '#facc15',
-                            tension: 0.5,
+                            tension,
                             pointRadius: 0,
                             borderWidth: 2
                         },
@@ -86,6 +89,10 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
                             ticks: {
                                 display: false
                             },
+                            grid: {
+                                display: true,
+                                color: 'rgba(255,255,255,0.1)'
+                            }
                         },
                         y: {
                             ticks: {
@@ -98,7 +105,7 @@ export default function KDAChart({ kda_stats }: { kda_stats: Stats["scores"][0][
                             },
                             grid: {
                                 display: true,
-                                color: 'rgba(255,255,255,0.1)',
+                                color: 'rgba(255,255,255,0.1)'
                             }
                         }
                     }
