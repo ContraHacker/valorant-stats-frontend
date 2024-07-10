@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+import { Saira } from "next/font/google";
 import "./globals.css";
 
-const font = Rubik({ subsets: ["latin"] });
+const font = Saira({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "Baracc",

@@ -28,47 +28,47 @@ export default async function RunningStats() {
 
             <div className="grid grid-cols-5 gap-4 mt-6">
 
-                <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
+                <div className="bg-fuchsia-400/20 bg-gradient-linear px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Games Played</p>
                     <p className="text-[3vw] leading-none">{ num_games }</p>
                 </div>
 
-                <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
+                <div className="bg-fuchsia-400/20 bg-gradient-linear px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">KDR</p>
                     <p className="text-[3vw] leading-none">{ kdr.toFixed(2) }</p>
                 </div>
 
-                <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
+                <div className="bg-fuchsia-400/20 bg-gradient-linear px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Average Duration</p>
                     <p className="text-[3vw] leading-none">{ avg_duration }</p>
                 </div>
 
-                <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full col-span-2">
+                <div className="bg-fuchsia-400/20 bg-gradient-linear px-8 py-4 rounded w-full col-span-2">
                     <p className="text-xs text-gray-300">Total Duration</p>
                     <p className="text-[3vw] leading-none">{ total_duration }</p>
                 </div>
 
-                <div className="bg-fuchsia-400/20 px-8 py-4 rounded w-full">
+                <div className="bg-fuchsia-400/20 bg-gradient-linear px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Wins & Losses</p>
                     <p className="text-[3vw] leading-none">{ num_wins } / { num_losses }</p>
                 </div>
 
-                <div className="bg-green-400/20 px-8 py-4 rounded w-full">
+                <div className="bg-green-400/20 bg-gradient-linear px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Total Kills</p>
                     <p className="text-[3vw] leading-none">{ total_kills }</p>
                 </div>
 
-                <div className="bg-red-400/20 px-8 py-4 rounded w-full">
+                <div className="bg-red-400/20 bg-gradient-linear px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Total Deaths</p>
                     <p className="text-[3vw] leading-none">{ total_deaths }</p>
                 </div>
 
-                <div className="bg-green-400/20 px-8 py-4 rounded w-full">
+                <div className="bg-green-400/20 bg-gradient-linear px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Average Kills</p>
                     <p className="text-[3vw] leading-none">{ avg_kills.toFixed(0) }</p>
                 </div>
 
-                <div className="bg-red-400/20 px-8 py-4 rounded w-full">
+                <div className="bg-red-400/20 bg-gradient-linear px-8 py-4 rounded w-full">
                     <p className="text-xs text-gray-300">Average Deaths</p>
                     <p className="text-[3vw] leading-none">{ avg_deaths.toFixed(0) }</p>
                 </div>
