@@ -8,8 +8,8 @@ import { FiCornerDownRight, FiX } from "react-icons/fi";
 
 export default function ScreenshotInput() {
 
-    const [screenshot, setScreenshot] = useState<File | null>(null);
-    const [modalOpen, setModalOpen] = useState(false);
+    const [screenshot, set_screenshot] = useState<File | null>(null);
+    const [modal_open, set_modal_open] = useState(false);
 
     function process_paste(event: ClipboardEvent) {
 
@@ -20,8 +20,8 @@ export default function ScreenshotInput() {
                 if (items[i].type.indexOf("image") !== -1) {
                     const blob = items[i].getAsFile();
                     if (blob) {
-                        setScreenshot(blob);
-                        setModalOpen(true);
+                        set_screenshot(blob);
+                        set_modal_open(true);
                     }
                 }
             }
@@ -63,8 +63,8 @@ export default function ScreenshotInput() {
                 {
                     loading: 'Processing...',
                     success: (data) => {
-                        setModalOpen(false);
-                        setScreenshot(null);
+                        set_modal_open(false);
+                        set_screenshot(null);
                         return `Screenshot Processed in ${data.processing_time}ms`;
                     },
                     error: (error) => {
@@ -83,13 +83,13 @@ export default function ScreenshotInput() {
             <Toaster />
 
             <div
-                onClick={ () => setModalOpen(false) }
-                style={ { visibility: modalOpen ? "visible" : "hidden" } }
+                onClick={ () => set_modal_open(false) }
+                style={ { visibility: modal_open ? "visible" : "hidden" } }
                 className="w-screen h-screen fixed inset-0 bg-black/50 backdrop-blur-sm grid place-items-center"
             >
 
                 <dialog
-                    open={ modalOpen }
+                    open={ modal_open }
                     className="w-1/2 bg-white/25 relative p-8"
                     onClick={ (e) => e.stopPropagation() }
                 >
@@ -103,7 +103,7 @@ export default function ScreenshotInput() {
                     <div className="flex justify-end mt-8 gap-x-8 text-white text-4xl">
 
                         <button
-                            onClick={ () => setModalOpen(false) }
+                            onClick={ () => set_modal_open(false) }
                             className="p-2 rounded bg-red-500 hover:outline"
                         >
                             <FiX />

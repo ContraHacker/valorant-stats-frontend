@@ -1,11 +1,13 @@
 import { PLAYER_NAME } from "@/constants";
-import { getAllDMStats, getDeathmatchRunningStats } from "@/lib/db/dm-records";
+import { getAllDMStats, getDeathmatchRunningStats, getRunningKDRTrend } from "@/lib/db/dm-records";
 import KDAChart from "./KDAChart";
+import KDRTrendChart from "./KDRTrendChart";
 import MapFrequencyChart from "./MapFrequencyChart";
 
 export default async function RunningStats() {
 
     const stats = await getAllDMStats();
+
     const {
         num_games,
         total_kills,
@@ -18,6 +20,8 @@ export default async function RunningStats() {
         total_duration,
         avg_duration
     } = await getDeathmatchRunningStats();
+
+    const kdr_trend_data = await getRunningKDRTrend();
 
     return (
         <>
@@ -71,9 +75,12 @@ export default async function RunningStats() {
 
             </div>
 
-            <div className="my-6 grid grid-cols-2 gap-x-4">
+            <div className="my-6 grid grid-cols-2 gap-4">
+
                 <MapFrequencyChart map_stats={ stats.map((stat) => stat.map) } />
                 <KDAChart kda_stats={ stats.map((stat) => stat.scores[PLAYER_NAME]).reverse() } />
+                <KDRTrendChart data={ kdr_trend_data } average_kdr={ kdr } />
+
             </div>
 
         </>

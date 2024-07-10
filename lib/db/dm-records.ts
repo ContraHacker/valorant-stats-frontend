@@ -152,25 +152,25 @@ export async function getDeathmatchRunningStats() {
         stats.avg_deaths = stats.total_deaths / stats.num_games;
         stats.num_wins = all_records.filter((stat) => stat.scores[PLAYER_NAME].kills === 40).length;
         stats.num_losses = stats.num_games - stats.num_wins;
-        
+
         const total_duration_seconds = all_records.reduce((acc, stat) => {
             const [minutes, seconds] = stat.match_duration.split(':').map(Number);
             return acc + (minutes * 60) + seconds;
         }, 0);
 
-        const total_hours = Math.floor(total_duration_seconds / 3600);
-        const total_minutes = Math.floor((total_duration_seconds % 3600) / 60);
-        const total_seconds = Math.floor(total_duration_seconds % 60);
+        const total_hours = Math.floor(total_duration_seconds / 3600).toString();
+        const total_minutes = Math.floor((total_duration_seconds % 3600) / 60).toString();
+        const total_seconds = Math.floor(total_duration_seconds % 60).toString();
 
-        stats.total_duration = `${total_hours}:${total_minutes}:${total_seconds}`;
+        stats.total_duration = `${total_hours.padStart(2, '0')}:${total_minutes.padStart(2, '0')}:${total_seconds.padStart(2, '0')}`;
 
         const avg_duration_seconds = total_duration_seconds / stats.num_games;
 
         const avg_minutes = Math.floor(avg_duration_seconds / 60);
         const avg_seconds = Math.floor(avg_duration_seconds % 60);
 
-        stats.avg_duration = `${avg_minutes}:${avg_seconds}`;
-        
+        stats.avg_duration = `${avg_minutes.toString().padStart(2, '0')}:${avg_seconds.toString().padStart(2, '0')}`;
+
         return stats;
 
     }
@@ -195,4 +195,73 @@ export async function getDeathmatchRunningStats() {
         await client.close();
     }
 
+}
+
+type PerGameKDRItem = {
+    _id: string;
+    date: Date;
+    kdr: number;
+};
+
+export type KDRTrendData = {
+    kdr_trend: number[];
+    per_game_kdr: PerGameKDRItem[];
+};
+
+export async function getRunningKDRTrend() {
+
+    const client = new MongoClient(process.env.MONGODB_URI!);
+
+    try {
+
+        await client.connect();
+
+        const database = client.db(db_name);
+        const records = database.collection(collection_name);
+
+        const all_records = await records
+            .find({})
+            .toArray();
+
+        if (!all_records) {
+            throw new Error('Error fetching DM records to compute KDR trend');
+        }
+
+        let running_kills = 0;
+        let running_deaths = 0;
+
+        const result = {
+            kdr_trend: [] as number[],
+            per_game_kdr: [] as PerGameKDRItem[]
+        };
+
+        for (const record of all_records) {
+
+            running_kills += record.scores[PLAYER_NAME].kills;
+            running_deaths += record.scores[PLAYER_NAME].deaths;
+
+            result.kdr_trend.push(running_kills / running_deaths);
+
+            result.per_game_kdr.push({
+                _id: record._id.toString(),
+                date: record.date,
+                kdr: record.scores[PLAYER_NAME].kills / record.scores[PLAYER_NAME].deaths,
+            });
+        }
+
+        return result;
+
+    }
+
+    catch (error) {
+        console.error(error);
+        return {
+            kdr_trend: [],
+            per_game_kdr: []
+        };
+    }
+
+    finally {
+        await client.close();
+    }
 }
