@@ -13,8 +13,8 @@ export default function KDRTrendChart({ data, average_kdr }: { data: KDRTrendDat
     const router = useRouter();
     const [show_trend_only, set_show_trend_only] = useState(true);
 
-    const labels = data.per_game_kdr.map(stat => stat.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
-    const clipped_kdr_trend = data.kdr_trend.map(kdr => Math.min(1.6, Math.max(1.4, kdr)));
+    const labels = data.per_game_kdr.map(stat => stat.date ? stat.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '');
+    const clipped_kdr_trend = data.kdr_trend.map(kdr => kdr > 1.50 ? 1.50 : kdr);
 
     function handle_point_click(_: ChartEvent, elements: ActiveElement[]) {
         if (elements.length > 0) {

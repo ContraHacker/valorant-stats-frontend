@@ -2,6 +2,7 @@
 
 import { PLAYER_NAME } from '@/constants';
 import { ScoreItem } from '@/lib/db/dm-records';
+import classnames from 'classnames';
 import { useState } from 'react';
 
 export default function DMScoresTable({ scores }: { scores: [string, ScoreItem][] }) {
@@ -33,7 +34,7 @@ export default function DMScoresTable({ scores }: { scores: [string, ScoreItem][
                 <tbody>
                     {
                         scores.map(([player, { kills, deaths, assists, score }], index) => (
-                            <tr key={ player } className={ player === PLAYER_NAME ? 'border' : '' }>
+                            <tr key={ player } className={ classnames('even:bg-white/5', player === PLAYER_NAME && 'border font-bold') }>
 
                                 <td className='text-center'>{ index + 1 }</td>
 

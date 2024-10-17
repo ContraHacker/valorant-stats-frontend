@@ -199,7 +199,7 @@ export async function getDeathmatchRunningStats() {
 
 type PerGameKDRItem = {
     _id: string;
-    date: Date;
+    date: Date | null;
     kdr: number;
 };
 
